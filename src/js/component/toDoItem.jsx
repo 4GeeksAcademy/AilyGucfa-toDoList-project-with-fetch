@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const ToDoItem = ({ task, hoveredTaskId, handleMouseEnter, handleMouseLeave, handleDeleteItem }) => {
   return (
@@ -12,10 +11,6 @@ const ToDoItem = ({ task, hoveredTaskId, handleMouseEnter, handleMouseLeave, han
         onClick={() => handleDeleteItem(task.id)}>x</button>}
     </li>
   );
-};
-
-ToDoItem.propTypes = {
- task:PropTypes.string
 };
 
 export default ToDoItem;
