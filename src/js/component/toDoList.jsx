@@ -57,7 +57,7 @@ function handleInput (){
         <div className='container'>
           <div className='toDoBody'>
             <input
-              type='text'
+              type='text' autoFocus
               className='controlled-input'
               onChange={(event) => setNewTask(event.target.value)}
               onKeyDown={handleKeyDown}
