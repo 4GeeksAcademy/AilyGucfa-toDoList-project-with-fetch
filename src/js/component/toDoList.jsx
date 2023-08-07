@@ -8,15 +8,13 @@ const ToDoList = () => {
   const [toDo, setToDo] = useState([]);
   const [id, setId] = useState(0);
   const [hoveredTaskedId, setHoveredTaskId] = useState(null);
-  const [showEmptyAlert, setShowEmptyAlert] = useState(false);
 
   useEffect (() =>{
     if(toDo.length ===0){
         alert('no task, add a task');
-        setShowEmptyAlert(false);
     }
 
-},[toDo, showEmptyAlert])
+},[toDo])
 
 function handleInput (){
     if(newTask === ''){
