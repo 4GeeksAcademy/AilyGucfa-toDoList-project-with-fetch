@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import ToDoFooter from './toDoFooter';
 import ToDoItem from './toDoItem';
 
@@ -6,7 +6,7 @@ import ToDoItem from './toDoItem';
 const ToDoList = () => {
   const [newTask, setNewTask] = useState('');
   const [toDo, setToDo] = useState([]);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
   const [hoveredTaskedId, setHoveredTaskId] = useState(null);
 
   useEffect (() =>{
@@ -16,20 +16,23 @@ const ToDoList = () => {
 
 },[toDo])
 
-function handleInput (){
-    if(newTask === ''){
-        alert ('input cannot be empty');
-    }else{
-        const newToDoItem = {
-        id : id,
-        content: newTask.charAt(0).toUpperCase() + newTask.slice(1),
-      };
-      setToDo((previousToDo)=> [...previousToDo, newToDoItem])
-      setNewTask("");
-      setId((id) => id +1);
-    }
+function handleInput() {
+  if (newTask === "") {
+    alert("input cannot be empty");
+  } else {
+    const newToDoItem = {
+      id: id,
+      label: newTask.charAt(0).toUpperCase() + newTask.slice(1),
+      done: false
+    };
+    let newTodos =[...toDo, newToDoItem];
+    setToDo(newTodos)
+    setNewTask("");
+    setId((id) => id + 1);
+    assignNewTask(newTodos);
+    
+  }
 }
-
 
   function handleMouseEnter(id) {
     setHoveredTaskId(id);
@@ -40,7 +43,22 @@ function handleInput (){
   }
 
   function handleDeleteItem(id) {
-    setToDo((previousToDo) => previousToDo.filter((task) => task.id !== id));
+    const updatedToDo = toDo.filter((task) => task.id !== id);
+    setToDo(updatedToDo);
+
+    fetch(`https://playground.4geeks.com/apis/fake/todos/${id}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // Update the back end with the new to-do list
+        assignNewTask(updatedToDo);
+      })
+      .catch((error) => {
+        console.error('Error deleting task:', error);
+      });
   }
   function handleKeyDown(event) {
     if (event.key === 'Enter') {
@@ -48,7 +66,37 @@ function handleInput (){
     }
   }
   
+  function assignNewTask(toDoList) {
+    fetch("https://playground.4geeks.com/apis/fake/todos/user/ailygucfa", {
+      method: "PUT",
+      body: JSON.stringify(toDoList),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.error("API error:", response.statusText);
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.log("Success:", response);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }
+  
+  
+  useEffect(() =>{
+    fetch("https://playground.4geeks.com/apis/fake/todos/user/ailygucfa")
+    .then(response => response.json())
+    .then(data => setToDo(data))
+    
 
+}, [])
   return (
     <>
       <div className='toDoList'>
