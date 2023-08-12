@@ -57,7 +57,7 @@ function handleInput() {
 
   function deleteAllTask(){
     let sampleList = [{
-      "label": "Check your email",
+      "label": "My Task",  // when all task are deleted this will show
       "done": false,
     }]
     setToDo(sampleList)
