@@ -13,7 +13,6 @@ const ToDoList = () => {
     if(toDo.length ===0){
         alert('no task, add a task');
     }
-
 },[toDo])
 
 function handleInput() {
@@ -42,28 +41,27 @@ function handleInput() {
     setHoveredTaskId(id);
   }
 
+ 
   function handleDeleteItem(id) {
-    const updatedToDo = toDo.filter((task) => task.id !== id);
+    const updatedToDo = toDo.filter((task) => task.id !==id)
     setToDo(updatedToDo);
-
-    fetch(`https://playground.4geeks.com/apis/fake/todos/${id}`, {
-      method: 'DELETE',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Update the back end with the new to-do list
-        assignNewTask(updatedToDo);
-      })
-      .catch((error) => {
-        console.error('Error deleting task:', error);
-      });
+    assignNewTask(updatedToDo);
+   
   }
+  
   function handleKeyDown(event) {
     if (event.key === 'Enter') {
       handleInput();
     }
+  }
+
+  function deleteAllTask(){
+    let sampleList = [{
+      "label": "Check your email",
+      "done": false,
+    }]
+    setToDo(sampleList)
+    assignNewTask(sampleList);
   }
   
   function assignNewTask(toDoList) {
@@ -81,15 +79,14 @@ function handleInput() {
         }
         return response.json();
       })
-      .then((response) => {
-        console.log("Success:", response);
+      .then((data) => {
+        console.log("Success:", data);
       })
       .catch((error) => {
         console.log("Error:", error);
       });
   }
-  
-  
+ 
   useEffect(() =>{
     fetch("https://playground.4geeks.com/apis/fake/todos/user/ailygucfa")
     .then(response => response.json())
@@ -97,6 +94,8 @@ function handleInput() {
     
 
 }, [])
+ 
+
   return (
     <>
       <div className='toDoList'>
@@ -110,7 +109,7 @@ function handleInput() {
               onChange={(event) => setNewTask(event.target.value)}
               onKeyDown={handleKeyDown}
               value={newTask}
-              placeholder='Enter Your New Task Here'
+              placeholder='What needs to be done?'
             />
             <ul>
               {toDo.map((task) => (
@@ -125,7 +124,14 @@ function handleInput() {
               ))}
             </ul>
           </div>
-
+          {toDo.length > 0 && (
+            <button
+              className='deleteAllTask'
+              onClick={deleteAllTask}
+            >
+              Delete All Task
+            </button>
+          )}
           <ToDoFooter itemCount={toDo.length} />
         </div>
       </div>

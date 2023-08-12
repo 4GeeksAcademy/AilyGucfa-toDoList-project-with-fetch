@@ -85,3 +85,16 @@ li:hover{
 .bi-plus-circle-fill{
     border: none;
 }
+.deleteAllTask {
+  background-color: #e49d95;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 130px;
+}
+
+.deleteAllTask:hover {
+  background-color: #c0392b;
+}
