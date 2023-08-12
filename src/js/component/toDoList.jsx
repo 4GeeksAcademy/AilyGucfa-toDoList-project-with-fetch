@@ -57,7 +57,7 @@ function handleInput() {
 
   function deleteAllTask(){
     let sampleList = [{
-      "label": "My Task",  // when all task are deleted this will show
+      "label": "My Task",  // when all task are deleted this label will show.
       "done": false,
     }]
     setToDo(sampleList)
@@ -87,14 +87,17 @@ function handleInput() {
       });
   }
  
-  useEffect(() =>{
+  const getFetch = () => {
     fetch("https://playground.4geeks.com/apis/fake/todos/user/ailygucfa")
-    .then(response => response.json())
-    .then(data => setToDo(data))
-    
+      .then((resp) => resp.json())
+      .then((data) => setToDo(data))
+      .catch((error) => console.log(error));
+  };
 
-}, [])
- 
+  useEffect(() => {
+    getFetch();
+  }, []);
+
 
   return (
     <>
