@@ -129,7 +129,7 @@ function handleInput() {
               className='deleteAllTask'
               onClick={deleteAllTask}
             >
-              Delete All Task
+              Clear All Task
             </button>
           )}
           <ToDoFooter itemCount={toDo.length} />
