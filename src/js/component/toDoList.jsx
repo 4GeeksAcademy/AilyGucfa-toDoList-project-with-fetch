@@ -124,7 +124,7 @@ function handleInput() {
               ))}
             </ul>
           </div>
-          {toDo.length > 0 && (
+          {toDo.length >=2 && (
             <button
               className='deleteAllTask'
               onClick={deleteAllTask}
